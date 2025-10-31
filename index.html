@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>🎂 Feliz Cumpleaños, Jaris 🎂</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+    body {
+      background: linear-gradient(135deg, #f8d3d3, #fce8d2, #f7d9f0);
+      height: 100vh; overflow: hidden;
+      display: flex; flex-direction: column;
+      justify-content: center; align-items: center;
+      transition: background 1s ease-in-out;
+    }
+    .inicio { text-align: center; animation: fadeIn 2s ease; }
+    .titulo { font-size: 3rem; font-weight: 700; color: #d6336c; text-shadow: 0 0 15px rgba(255,255,255,0.8); display: flex; align-items: center; justify-content: center; gap: 20px; }
+    .titulo span { font-size: 2.8rem; }
+    .subtitulo { margin-top: 15px; font-size: 1.6rem; color: #6d6875; font-weight: 500; }
+    .inicio button { margin-top: 30px; background-color: #ff6b81; color: white; border: none; padding: 15px 40px; border-radius: 30px; font-size: 1.2rem; cursor: pointer; transition: 0.3s; box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
+    .inicio button:hover { background-color: #ff4757; transform: scale(1.05); }
+
+    .album { display: none; position: relative; width: 100%; height: 100vh; text-align: center; overflow: hidden; background: linear-gradient(135deg, #f8d3d3, #fce8d2, #f7d9f0); }
+    .imagen { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 750px; height: 450px; object-fit: cover; border-radius: 25px; box-shadow: 0 0 25px rgba(0,0,0,0.3); opacity: 0; transition: opacity 1s ease; }
+    .visible { opacity: 1; }
+    .texto { position: absolute; bottom: 8%; left: 50%; transform: translateX(-50%); background: rgba(255,255,255,0.7); padding: 15px 40px; border-radius: 15px; font-size: 1.5rem; color: #4a4a4a; font-weight: 500; backdrop-filter: blur(6px); max-width: 90%; }
+    .icono { position: absolute; top: 8%; left: 50%; transform: translateX(-50%) scale(1); font-size: 4rem; cursor: pointer; color: #ff5e78; transition: transform 0.3s ease; text-shadow: 0 0 10px #ffb3c6; }
+    .confeti { position: absolute; width: 10px; height: 10px; background: hsl(var(--hue),100%,70%); top: 50%; left: 50%; opacity: 0.9; animation: caer 1.5s linear forwards; border-radius: 50%; }
+    #mensajeFinal { display: none; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 5rem; font-weight: 700; color: #d6336c; text-align: center; text-shadow: 0 0 20px #fff; }
+
+    @keyframes caer { to { transform: translate(var(--x), var(--y)) rotate(720deg); opacity: 0; } }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+    @media (max-width:768px){ .titulo{font-size:2.2rem;} .subtitulo{font-size:1.2rem;} .texto{font-size:1.1rem;} .imagen{width:90%; height:auto;} #mensajeFinal{font-size:3rem;} }
+  </style>
+</head>
+<body>
+  <!-- Pantalla de inicio -->
+  <div class="inicio" id="inicio">
+    <div class="titulo"><span>🎂</span>Feliz Cumpleaños<span>🎂</span></div>
+    <div class="subtitulo">Querida amiga Jaris</div>
+    <button id="startBtn">Ver sorpresa ✨</button>
+  </div>
+
+  <!-- Álbum -->
+  <div class="album" id="album">
+    <div class="icono" id="icono">⭐</div>
+    <img id="foto" class="imagen" alt="Recuerdo">
+    <div class="texto" id="texto"></div>
+  </div>
+
+  <!-- Mensaje final -->
+  <div id="mensajeFinal">¡Feliz Cumpleaños, Jaris! 🎉</div>
+
+  <!-- Música -->
+  <audio id="musica" loop>
+    <source src="static/music/camilo_dapa.mp3" type="audio/mpeg">
+  </audio>
+
+  <script>
+    const inicio = document.getElementById("inicio");
+    const album = document.getElementById("album");
+    const startBtn = document.getElementById("startBtn");
+    const musica = document.getElementById("musica");
+    const foto = document.getElementById("foto");
+    const texto = document.getElementById("texto");
+    const icono = document.getElementById("icono");
+    const mensajeFinal = document.getElementById("mensajeFinal");
+
+    // Aquí definimos los recuerdos directamente en JS (ya no necesitamos Flask)
+    const recuerdos = [
+      {src: "static/img/5.jpeg", text: "Desde secundaria notaba que íbamos a ser grandes amigos, Gracias por estar ahí en los buenos y malos momentos, de verdad 💛"},
+      {src: "static/img/1.jpeg", text: "Aunque ahora estemos lejos, la amistad sigue igual de fuerte 🌍, cada vez que escucho 'Dapa', me acuerdo de ti y de todo lo que hemos vivido 🎵"},
+      {src: "static/img/2.jpeg", text: "Eres una de esas personas que se quedan en la vida, no importa el tiempo ni la distancia, gracias por ser como eres, por tu forma de escuchar, reír y acompañar 💬"},
+      {src: "static/img/3.jpeg", text: "Deseo que cumplas todos tus sueños y que la vida te devuelva todo lo bonito que das 🎂"},
+      {src: "static/img/4.jpeg", text: "Feliz cumpleaños, Jaris 🎉 gracias por ser mi mejor amiga y por tanto cariño siempre 💛"}
+    ];
+
+    let indice = 0;
+    let clicks = 0;
+
+    startBtn.addEventListener("click", () => {
+      inicio.style.display = "none";
+      album.style.display = "block";
+      musica.play();
+      mostrarRecuerdo(indice);
+    });
+
+    icono.addEventListener("click", () => {
+      clicks++;
+      icono.style.transform = `translateX(-50%) scale(${1 + clicks*0.3})`;
+      if (clicks === 3) {
+        crearConfeti();
+        setTimeout(() => {
+          clicks = 0;
+          icono.style.transform = "translateX(-50%) scale(1)";
+          indice++;
+          if(indice < recuerdos.length){
+            mostrarRecuerdo(indice);
+          } else {
+            foto.style.display="none";
+            texto.style.display="none";
+            icono.style.display="none";
+            mensajeFinal.style.display="block";
+            crearConfeti();
+            crearConfeti();
+          }
+        },800);
+      }
+    });
+
+    function mostrarRecuerdo(i){
+      foto.style.display="block";
+      texto.style.display="block";
+      foto.classList.remove("visible");
+      setTimeout(()=>{
+        foto.src = recuerdos[i].src;
+        texto.textContent = recuerdos[i].text;
+        foto.classList.add("visible");
+      },300);
+    }
+
+    function crearConfeti(){
+      for(let i=0;i<150;i++){
+        const confeti = document.createElement("div");
+        confeti.classList.add("confeti");
+        confeti.style.setProperty("--hue", Math.random()*360);
+        confeti.style.setProperty("--x", `${(Math.random()-0.5)*window.innerWidth}px`);
+        confeti.style.setProperty("--y", `${(Math.random()-0.5)*window.innerHeight}px`);
+        document.body.appendChild(confeti);
+        setTimeout(()=>confeti.remove(),1500);
+      }
+    }
+  </script>
+</body>
+</html>

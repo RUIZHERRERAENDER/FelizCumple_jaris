@@ -41,33 +41,7 @@
             box-shadow: 0 5px 20px rgba(0,0,0,0.2);
           }
 
-     .icono {
-            position: absolute;
-            top: calc(50% - 240px); /* posición base para pantallas grandes */
-            left: 50%;
-            transform: translateX(-50%) scale(1);
-            font-size: 5rem;
-            cursor: pointer;
-            color: #ff5e78;
-            transition: transform 0.3s ease;
-            text-shadow: 0 0 10px #ffb3c6;
-            z-index: 2;
-          }
-          
-          /* Ajuste automático en celulares */
-          @media (max-width: 768px) {
-            .icono {
-              top: calc(50% - 160px); /* baja la estrella en pantallas pequeñas */
-              font-size: 3.5rem; /* opcional: la hace más proporcionada */
-            }
-          }
-          
-          @media (max-width: 480px) {
-            .icono {
-              top: calc(50% - 130px); /* aún más baja en celulares muy pequeños */
-              font-size: 3rem;
-            }
-          }
+    .icono { position: absolute; top: 7%; left: 50%; transform: translateX(-50%) scale(1); font-size: 5rem; cursor: pointer; color: #ff5e78; transition: transform 0.3s ease; text-shadow: 0 0 10px #ffb3c6; }
     .confeti { position: absolute; width: 10px; height: 10px; background: hsl(var(--hue),100%,70%); top: 50%; left: 50%; opacity: 0.9; animation: caer 1.5s linear forwards; border-radius: 50%; }
     #mensajeFinal { display: none; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 5rem; font-weight: 700; color: #d6336c; text-align: center; text-shadow: 0 0 20px #fff; }
 

@@ -13,7 +13,7 @@ def home():
         {"src": url_for('static', filename='img/3.jpeg'), "texto": "Por más momentos juntos 🌸"},
         {"src": url_for('static', filename='img/4.jpeg'), "texto": "Eres una persona increíble 💫"},
     ]
-    return render_templates('index.html', fecha=fecha, musica_url=musica_url, imagenes=imagenes)
+    return render_template('index.html', fecha=fecha, musica_url=musica_url, imagenes=imagenes)
 
 if __name__ == '__main__':
     app.run(debug=True)
